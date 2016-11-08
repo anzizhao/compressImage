@@ -114,6 +114,7 @@ Compressor.prototype.dataURItoBlob =  function( dataURI ){
 }
 
 function postFile (url, files) {
+    console.log( arguments.callee.name );
     //返回的 blob 对象可以 append 到 FormData对象上 用 ajax 上传  
     var db = new FormData();
     files.forEach(function(file){
@@ -137,7 +138,7 @@ function postFile (url, files) {
     xhr.send(db);
 }
 
-var g_uploadUrl = 'http://localhost:6330/picture';
+var g_uploadUrl = 'http://192.168.2.211:6330/picture';
 
 var uploader = document.getElementById('uploader');
 uploader.onchange = function(e) {
@@ -146,6 +147,32 @@ uploader.onchange = function(e) {
     }
     var mv = this;
     var compressor = new Compressor({scale: 0.6});
+    compressor.parse(this.files, function(err, outFiles ){
+
+        if( err )  {
+            console.error( err.msg );
+            switch(err.err) {
+                case  compressor.errorCode.notSupportCanvas:
+                case compressor.errorCode.scaleEqualOne: 
+                    // 上传原来的图片 
+                    postFile(g_uploadUrl, Array.prototype.slice.call( mv.files )) 
+                    break
+            }
+            return 
+        } 
+        console.log('compress sucess');
+        //上传 压缩图片
+        postFile(g_uploadUrl, outFiles ) 
+    });
+}
+
+var uploaderCompressEqualOne = document.getElementById('uploaderCompressEqualOne');
+uploaderCompressEqualOne.onchange = function(e) {
+    if( this.files.length === 0) {
+        return  
+    }
+    var mv = this;
+    var compressor = new Compressor({scale: 1 });
     compressor.parse(this.files, function(err, outFiles ){
         if( err )  {
             console.error( err.msg );
@@ -163,6 +190,14 @@ uploader.onchange = function(e) {
         //上传 压缩图片
         postFile(g_uploadUrl, outFiles ) 
     });
+}
+
+var uploaderNoCompress  = document.getElementById('uploaderNoCompress');
+uploaderNoCompress.onchange = function(e) {
+    if( this.files.length === 0) {
+        return  
+    }
+    postFile(g_uploadUrl, Array.prototype.slice.call( this.files )) 
 }
 
 

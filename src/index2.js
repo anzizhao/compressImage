@@ -110,7 +110,7 @@ uploader.onchange = function(e) {
             } else {
                 // filelist alike array  
                 var key ;
-                for ( key in files ) {
+                 for ( key in files ) {
                     db.append('inputFile', files[key] );
                 } 
             }

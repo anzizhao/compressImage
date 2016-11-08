@@ -1,9 +1,33 @@
 <html>
 <head>
-<title>上传图片测试</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>上传图片测试</title>
+    <script src="http://192.168.2.211:8320/js/remote.js?4ccb82a0-7cb3-4e7c-ac55-5e274ac370ac"></script>
 </head>
 <body>
+    <span>  
+        异步提交 压缩上传
+    </span>
     <input type="file" id="uploader" />
-    <script src="src/index.js"></script>
+    <br>
+    <span>  
+        异步提交 没有压缩
+    </span>
+    <input type="file" id="uploaderNoCompress" />
+    <br>
+    <span>  
+        压缩因子为1 (这个传完图片大很多)
+    </span>
+    <input type="file" id="uploaderCompressEqualOne" />
+    <br>
+    <span>  
+        form 提交
+    </span>
+
+    <form method="post" enctype="multipart/form-data" action="http://192.168.2.211:6330/picture">
+        <input type="file" name="inputFile">
+        <input type="submit">
+    </form>
+    <script src="src/index.js?t=1"></script>
 </body>
 </html>
