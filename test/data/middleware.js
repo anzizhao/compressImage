@@ -37,8 +37,12 @@ router.post('/picture', { stream: true }, function(){
             error: 0,
             msg: ""
         }
+        this.res.writeHead(404)
+        //this.res.writeHead(200, { 'Access-Control-Allow-Origin': '*' })
+        //this.res.end(JSON.stringify(resObj));
 
-        this.res.send(resObj);
+        //this.res.writeHead(200, { 'Access-Control-Allow-Origin': '*' })
+        //this.res.send(resObj);
         //res.end();
     }.bind(this) );  
 });
